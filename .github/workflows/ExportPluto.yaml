@@ -66,6 +66,7 @@ jobs:
                 export PYTHON='${{ steps.setup-python.outputs.python-path }}'
                 julia -e '
                   using Pkg
+                  Pkg.build("PyCall")
                   Pkg.add("PyCall")
                   pyimport("sys").executable
 
