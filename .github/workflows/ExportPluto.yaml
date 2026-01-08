@@ -64,6 +64,9 @@ jobs:
               run: |
                 julia -e '
                   ENV["PYTHON"] = "${{ steps.setup-python.outputs.python-path }}"
+
+                  using Pkg
+                  
                   Pkg.activate(mktempdir())
                   Pkg.add([
                     Pkg.PackageSpec(name="PlutoSliderServer", version="1"),
