@@ -22,22 +22,6 @@ jobs:
         steps:
             - name: Checkout this repository
               uses: actions/checkout@v4
-            
-            - name: "Set up Python"
-              uses: actions/setup-python@v6
-              id: setup-python
-              with:
-                python-version-file: ".python-version"
-              
-            - name: Install uv
-              uses: astral-sh/setup-uv@v7
-              with:
-                enable-cache: true
-            
-            - name: Install python deps
-              run: |
-                uv export --format requirements.txt -o requirements.txt
-                uv pip install --system -r requirements.txt
 
             - name: Install Julia
               uses: julia-actions/setup-julia@v2
@@ -63,12 +47,11 @@ jobs:
 
             - name: Run & export Pluto notebooks
               run: |
-                export PYTHON='${{ steps.setup-python.outputs.python-path }}'
                 julia -e '
                   using Pkg
-                  Pkg.build("PyCall")
-                  Pkg.add("PyCall")
-                  pyimport("sys").executable
+                  Pkg.add("Conda")
+                  using Conda
+                  Conda.add("matplotlib")
 
                   Pkg.activate(mktempdir())
                   Pkg.add([
