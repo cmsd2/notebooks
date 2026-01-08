@@ -49,10 +49,16 @@ jobs:
             - name: Run & export Pluto notebooks
               run: |
                 julia -e '
+                  ENV["PYTHON"] = ""
+                  
                   using Pkg
+                  
                   Pkg.add("Conda")
                   using Conda
                   Conda.add("matplotlib")
+
+                  Pkg.add("PyCall")
+                  Pkg.build("PyCall")
 
                   Pkg.activate(mktempdir())
                   Pkg.add([
