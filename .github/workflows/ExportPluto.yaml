@@ -64,7 +64,7 @@ jobs:
             - name: Run & export Pluto notebooks
               run: |
                 export PYTHON='${{ steps.setup-python.outputs.python-path }}'
-                uv run julia -e '
+                julia -e '
                   using Pkg
                   Pkg.add("PyCall")
                   pyimport("sys").executable
