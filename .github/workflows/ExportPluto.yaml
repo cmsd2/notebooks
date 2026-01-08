@@ -25,6 +25,7 @@ jobs:
             
             - name: "Set up Python"
               uses: actions/setup-python@v6
+              id: setup-python
               with:
                 python-version-file: ".python-version"
               
@@ -34,7 +35,9 @@ jobs:
                 enable-cache: true
             
             - name: Install python deps
-              run: uv sync --locked --all-extras --dev
+              run: |
+                uv export --format requirements.txt -o requirements.txt
+                uv pip install --system -r requirements.txt
 
             - name: Install Julia
               uses: julia-actions/setup-julia@v2
@@ -60,7 +63,12 @@ jobs:
 
             - name: Run & export Pluto notebooks
               run: |
-                uv run julia -e 'using Pkg
+                export PYTHON='${{ steps.setup-python.outputs.python-path }}'
+                uv run julia -e '
+                  using PyCall
+                  pyimport("sys").executable
+
+                  using Pkg
                   Pkg.activate(mktempdir())
                   Pkg.add([
                     Pkg.PackageSpec(name="PlutoSliderServer", version="1"),
