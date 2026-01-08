@@ -65,10 +65,10 @@ jobs:
               run: |
                 export PYTHON='${{ steps.setup-python.outputs.python-path }}'
                 uv run julia -e '
-                  using PyCall
+                  using Pkg
+                  Pkg.add("PyCall")
                   pyimport("sys").executable
 
-                  using Pkg
                   Pkg.activate(mktempdir())
                   Pkg.add([
                     Pkg.PackageSpec(name="PlutoSliderServer", version="1"),
