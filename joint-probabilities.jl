@@ -5,7 +5,22 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ 16638d42-4d89-456c-9510-7c4cc133f1cd
-
+md"""
+The table below contains the following columns:
+ 1. X random variable
+ 2. Y random variable
+ 3. P(X,Y) joint probabilities
+ 4. X * P(X,Y)
+ 5. Y * P(X,Y)
+ 6. X - E(X)
+ 7. Y - E(Y)
+ 8. (X - E(X))^2 * P(X,Y)
+ 9. (Y - E(Y))^2 * P(X,Y)
+ 10. X * Y * P(X,Y)
+In additions:
+averages, variances, and stddevs are 1x2 matrices with averages, variances and stddevs of X and Y.
+And covariance and correlation are scalars showing the covariance and correlation of X and Y.
+"""
 
 # ╔═╡ a2a59e78-ed8e-11f0-9691-37a927497d5f
 table = zeros(6,10)
@@ -29,7 +44,14 @@ averages = sum(table[:,4:5],dims=1)
 table[:,6:7] = hcat([table[:,i] .- averages[i] for i in 1:2]...)
 
 # ╔═╡ 6a71a26d-e96d-4064-be04-24ae7d90bb24
-
+md"""
+```math
+\begin{array}{c}
+Var(X) = E((X-E(X))^2) \\
+Var(Y) = E((Y-E(Y))^2)
+\end{array}
+```
+"""
 
 # ╔═╡ 75fc01c6-5169-4562-8789-15e10d7fbcd1
 table[:,8:9] = (table[:,6:7].^2).*table[:,3]
